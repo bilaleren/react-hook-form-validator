@@ -31,8 +31,9 @@ const fakeLocale: HookFormLocale = {
   fileType: 'fileType',
   ipAddress: 'ipAddress',
   number: 'number',
-  pattern: 'pattern',
   regexp: 'regexp',
+  'regexp.not': 'regexp.not',
+  pattern: 'pattern',
   required: 'required',
   string: 'string'
 }

@@ -13,12 +13,18 @@ function regexpRule<
   TFormValues extends FormValues = FormValues
 >(
   regexp: RegExp,
+  not: boolean,
   locale: HookFormLocale,
   message?: Message
 ): SyncValidate<TFieldValue, TFormValues> {
+  const localeKey: keyof HookFormLocale = not ? 'regexp.not' : 'regexp'
+
   return (value) => {
-    if (!isString(value) || !regexp.test(value)) {
-      return createMessage(message || locale.regexp, value, {
+    const result =
+      isString(value) && (not ? !regexp.test(value) : regexp.test(value))
+
+    if (!result) {
+      return createMessage(message || locale[localeKey], value, {
         constraints: {
           regexp
         }

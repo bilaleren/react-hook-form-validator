@@ -34,6 +34,7 @@ export interface HookFormLocale {
   required: Message
   email: Message
   regexp: Message
+  'regexp.not': Message
   pattern: Message
   string: Message
   number: Message

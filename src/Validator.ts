@@ -174,7 +174,15 @@ class Validator<
   regexp(regexp: RegExp, message?: Message): this {
     return this.registerRule(
       'regexp',
-      regexpRule(regexp, this.locale, message),
+      regexpRule(regexp, false, this.locale, message),
+      true
+    )
+  }
+
+  notRegexp(regexp: RegExp, message?: Message): this {
+    return this.registerRule(
+      'notRegexp',
+      regexpRule(regexp, true, this.locale, message),
       true
     )
   }

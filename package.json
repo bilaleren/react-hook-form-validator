@@ -1,6 +1,6 @@
 {
   "name": "react-hook-form-validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Hook Form field validator.",
   "main": "./dist/index.cjs.js",
   "types": "./dist/index.d.ts",
@@ -20,7 +20,7 @@
     "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
     "test": "jest --config jest.config.js --detectOpenHandles",
     "test:watch": "yarn run test --watchAll",
-    "prebuild": "yarn lint && yarn test",
+    "prebuild": "rm -rf dist && yarn lint && yarn test",
     "build": "NODE_ENV=production rollup -c",
     "start:dev": "NODE_ENV=development rollup -c -w"
   },

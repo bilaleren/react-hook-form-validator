@@ -517,12 +517,25 @@ describe('validator()', () => {
 
     describe('regexp()', () => {
       it.each([
-        [/^1$/, '1'],
-        [/^[a-z]{2}$/, 'ab'],
-        [/^[A-Z]{2}$/, 'AZ'],
-        [/^[0-9]{2}$/, '12']
-      ])('"%s" pattern must match "%s" value', (regexp, value) => {
+        ['1', /^1$/],
+        ['ab', /^[a-z]{2}$/],
+        ['AZ', /^[A-Z]{2}$/],
+        ['12', /^[0-9]{2}$/]
+      ])('the "%s" value must match the "%s" format', (value, regexp) => {
         const validate = validator().regexp(regexp).validate()
+
+        expect(validate(value, {})).resolves.toBe(true)
+      })
+    })
+
+    describe('notRegexp()', () => {
+      it.each([
+        ['2', /^1$/],
+        ['AB', /^[a-z]{2}$/],
+        ['ab', /^[A-Z]{2}$/],
+        [',', /^[0-9]{2}$/]
+      ])('"%s" pattern must match "%s" value', (value, regexp) => {
+        const validate = validator().notRegexp(regexp).validate()
 
         expect(validate(value, {})).resolves.toBe(true)
       })
@@ -1515,21 +1528,45 @@ describe('validator()', () => {
 
     describe('regexp()', () => {
       it.each([
-        [/^1$/, '21'],
-        [/^[a-z]{2}$/, 'AZ'],
-        [/^[A-Z]{2}$/, 'az'],
-        [/^[0-9]{2}$/, 'a']
-      ])('"%s" pattern must not match "%s" value', (regexp, value) => {
-        const validate = validator().regexp(regexp).validate()
+        ['AZ', /^[a-z]{2}$/],
+        ['az', /^[A-Z]{2}$/],
+        ['a', /^[0-9]{2}$/]
+      ])(
+        'return an error message when the "%s" value does not match the "%s" format',
+        (value, regexp) => {
+          const validate = validator().regexp(regexp).validate()
 
-        expect(validate(value, {})).resolves.toBe(
-          createMessage(locale.regexp, value, {
-            constraints: {
-              regexp
-            }
-          })
-        )
-      })
+          expect(validate(value, {})).resolves.toBe(
+            createMessage(locale.regexp, value, {
+              constraints: {
+                regexp
+              }
+            })
+          )
+        }
+      )
+    })
+
+    describe('notRegexp()', () => {
+      it.each([
+        ['1', /^1$/],
+        ['az', /^[a-z]{2}$/],
+        ['AZ', /^[A-Z]{2}$/],
+        ['53', /^[0-9]{2}$/]
+      ])(
+        'return an error message when the "%s" value matches the "%s" format',
+        (value, regexp) => {
+          const validate = validator().notRegexp(regexp).validate()
+
+          expect(validate(value, {})).resolves.toBe(
+            createMessage(locale['regexp.not'], value, {
+              constraints: {
+                regexp
+              }
+            })
+          )
+        }
+      )
     })
 
     describe('pattern()', () => {
