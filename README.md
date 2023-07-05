@@ -156,6 +156,12 @@ Tests the field value with the specified regexp.
 
 **Note:** The `{regexp}` interpolation can be used in the `message` argument.
 
+#### `.notRegexp(regexp: RegExp, message?: string | function): Validator`
+
+Tests the field value with the specified regexp.
+
+**Note:** The `{regexp}` interpolation can be used in the `message` argument.
+
 #### `.pattern(pattern: string, message?: string | function): Validator`
 
 Converts a given pattern into a regexp and tests the field value with this regexp.
